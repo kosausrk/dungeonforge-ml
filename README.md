@@ -4,13 +4,13 @@ This project combines unsupervised learning and generative modeling to create st
 
 
 Core Pipeline
->generate_dungeons() creates mazes with guaranteed entry → exit paths.
+-generate_dungeons() creates mazes with guaranteed entry → exit paths.
 
->KMeans clusters dungeons based on structural similarity.
+-KMeans clusters dungeons based on structural similarity.
 
->VAE learns a low-dimensional latent representation to generate new layouts.
+-VAE learns a low-dimensional latent representation to generate new layouts.
 
->simulate_player() uses BFS (Breadth-First Search) to check if a generated dungeon is solvable.
+-simulate_player() uses BFS (Breadth-First Search) to check if a generated dungeon is solvable.
 
 
 visualize_player_path() overlays the player’s exact solution path (if one exists)
@@ -26,8 +26,8 @@ visualize_player_path() overlays the player’s exact solution path (if one exis
 
 
 # Key Takeaways
->Applies key ML concepts: clustering, latent variables, probabilistic sampling
+-Applies key ML concepts: clustering, latent variables, probabilistic sampling
 
->Demonstrates generative design for game maps / intelligent systems
+-Demonstrates generative design for game maps / intelligent systems
 
 >BFS validation ensures outputs are not just realistic—but playable
