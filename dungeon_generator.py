@@ -268,6 +268,10 @@ if __name__ == "__main__":
     print("🎲 Sampling new dungeons from latent space...")
     sample_dungeons(vae)
 
+    #Testing player in maze
+    evaluate_dungeon(vae, trials=10)
+
+
 
 #II: 
 """
