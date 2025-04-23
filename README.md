@@ -16,13 +16,13 @@ Core Pipeline
 visualize_player_path() overlays the player’s exact solution path (if one exists)
 
 ### Generated Mazes
-![mazes](maze1.png)
-![mazes](maze2.png)
-![mazes](maze3.png)
+![mazes](mazes/maze1.png)
+![mazes](mazes/maze2.png)
+![mazes](mazes/maze3.png)
 
 
 ### Generated Player Solutions 
-![player_paths](path1.png) 
+![player_paths](player_paths/path1.png) 
 
 
 # Key Takeaways
