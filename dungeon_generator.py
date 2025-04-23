@@ -229,6 +229,106 @@ def simulate_player(dungeon, entry_val=2, exit_val=3):
 
     return False  # No valid path
 
+
+def visualize_player_path(dungeon, entry_val=2, exit_val=3, show_steps=True):
+    """
+    Visualizes a player's pathfinding (BFS) from entry to exit.
+    Shows full grid with tile colors and optional step labels.
+    """
+    import matplotlib.colors as mcolors
+
+    size = dungeon.shape[0]
+    visited = np.zeros_like(dungeon, dtype=bool)
+    parent = {}  # To reconstruct path
+    step_count = {}  # For labeling each move (optional)
+
+    try:
+        start = tuple(np.argwhere(dungeon == entry_val)[0])
+        goal = tuple(np.argwhere(dungeon == exit_val)[0])
+    except IndexError:
+        print("❌ Entry or exit not found.")
+        return
+
+    queue = deque([start])
+    visited[start] = True
+    step_count[start] = 0
+    found = False
+
+    directions = [(-1,0), (1,0), (0,-1), (0,1)]
+
+    while queue:
+        x, y = queue.popleft()
+        if (x, y) == goal:
+            found = True
+            break
+        for dx, dy in directions:
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < size and 0 <= ny < size:
+                if not visited[nx, ny] and dungeon[nx, ny] in [1, 3]:
+                    visited[nx, ny] = True
+                    parent[(nx, ny)] = (x, y)
+                    step_count[(nx, ny)] = step_count[(x, y)] + 1
+                    queue.append((nx, ny))
+
+    # Copy grid and draw path
+    display_grid = dungeon.copy()
+    path = []
+
+    if found:
+        node = goal
+        while node != start:
+            path.append(node)
+            node = parent[node]
+        for px, py in path:
+            if display_grid[px, py] not in [2, 3]:
+                display_grid[px, py] = 4  # Player path color
+    else:
+        print("❌ No path found.")
+
+    # Color setup
+    tile_colors = {
+        0: "#2c3e50",  # Wall
+        1: "#ecf0f1",  # Path
+        2: "#27ae60",  # Entry (green)
+        3: "#c0392b",  # Exit (red)
+        4: "#f1c40f",  # Player path (yellow)
+    }
+
+    cmap = mcolors.ListedColormap([tile_colors.get(i, "#3498db") for i in range(6)])
+    bounds = list(range(7))
+    norm = mcolors.BoundaryNorm(bounds, cmap.N)
+
+    # Plot grid
+    fig, ax = plt.subplots(figsize=(6, 6))
+    ax.imshow(display_grid, cmap=cmap, norm=norm)
+
+    # Draw gridlines
+    ax.set_xticks(np.arange(size))
+    ax.set_yticks(np.arange(size))
+    ax.set_xticks(np.arange(-.5, size, 1), minor=True)
+    ax.set_yticks(np.arange(-.5, size, 1), minor=True)
+    ax.grid(which='minor', color='black', linestyle='-', linewidth=0.5)
+
+    # Add axis labels
+    ax.set_xticklabels([str(i) for i in range(size)])
+    ax.set_yticklabels([str(i) for i in range(size)])
+    ax.tick_params(top=True, bottom=False,
+                   labeltop=True, labelbottom=False)
+
+    # Optional: label steps
+    if show_steps and found:
+        for (px, py), step in step_count.items():
+            if display_grid[px, py] == 4:  # player path tile
+                ax.text(py, px, str(step), va='center', ha='center', color='black', fontsize=8, fontweight='bold')
+
+    ax.set_title("🧭 BFS Player Path", fontsize=14)
+    plt.tight_layout()
+    plt.show()
+
+
+
+
+
 def evaluate_dungeon(model, latent_dim=10, grid_size=10, trials=10):
     """
     Generates `trials` number of dungeons from the model and evaluates
@@ -270,6 +370,17 @@ if __name__ == "__main__":
 
     #Testing player in maze
     evaluate_dungeon(vae, trials=10)
+
+    # Generate one dungeon and visualize path
+    with torch.no_grad():
+        z = torch.randn(1, 10)
+        sample = vae.decode(z).numpy().reshape(10, 10)
+        dungeon = (sample > 0.5).astype(int)
+        dungeon[0, 0] = 2  # Entry
+        dungeon[-1, -1] = 3  # Exit
+        visualize_player_path(dungeon)
+
+
 
 
 
