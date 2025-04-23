@@ -30,4 +30,4 @@ visualize_player_path() overlays the player’s exact solution path (if one exis
 
 -Demonstrates generative design for game maps / intelligent systems
 
->BFS validation ensures outputs are not just realistic—but playable
+-BFS validation ensures outputs are not just realistic—but playable
