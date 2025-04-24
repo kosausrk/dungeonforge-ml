@@ -13,7 +13,7 @@ Core Pipeline
 -simulate_player() uses BFS (Breadth-First Search) to check if a generated dungeon is solvable.
 
 
-visualize_player_path() overlays the player’s exact solution path (if one exists)
+-visualize_player_path() overlays the player’s exact solution path (if one exists)
 
 ### Generated Mazes
 ![mazes](mazes/maze1.png)
