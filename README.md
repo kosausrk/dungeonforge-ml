@@ -2,6 +2,8 @@
 
 This project combines unsupervised learning and generative modeling to create structured, playable dungeon mazes. Using K-Means clustering and a Variational Autoencoder (VAE), it learns spatial patterns from thousands of randomly generated grids and then samples new layouts from a compressed latent space.
 
+**Tags**: `unsupervised learning` · `generative modeling` · `VAE` · `K-Means` · `CS4780`
+
 
 Core Pipeline
 -generate_dungeons() creates mazes with guaranteed entry → exit paths.
